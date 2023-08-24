@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>MyCryptography</title>
+  </head>
+  <body>
+  	<h2 align="center">Asymmetric encryption and decryption (文本非对称加解密)</h2>  		
+		<div align="center"> Only Unicode from \u0000 to \uFFF0 are supported!</div>		
+		<div align="center"> 支持的字符unicode范围(\u0000 - \uFFF0)</div><br><br>		
+		<form align="center">
+  		<label for="plaintext">Input plaintext here...(明文):</label><br>
+  		<input type="text" id="plaintext" name="plaintext" maxlength="50" size="50">
+  		<input type="button" id="btn_enc" value="encryption(加密)"><br><br> 		
+  		<label for="ciphertext">Input ciphertext here...(密文):</label><br>
+  		<input type="text" id="ciphertext" name="ciphertext" maxlength="50" size="50">
+  		<input type="button" id="btn_dec" value="decryption(解密)">
+		</form>  	
+  	<p>
+		<div id="result_text" align="center"> </div>
+	</p>
+    <script src="cipher.js"></script>		
+    <script>
+        // called by sender
+        let public_key="\u0002\u0000￰\u0000µ\u0000\u0000\u0000µ";
+        initPublicKey(public_key);
+        // called by receiver actually
+        let private_key="翹\u0000µ\u0000Ū\u0000\u0000\u0000Ū";
+        initPrivateKey(private_key);
+
+        let btn_enc = document.getElementById("btn_enc");
+        btn_enc.addEventListener("click", () => {  	
+        let obj_plaintext=document.getElementById("plaintext");       
+        if(checkInput(obj_plaintext.value)){
+          let ciphertext=encryption(obj_plaintext.value);
+          let obj_ciphertext=document.getElementById("ciphertext");    
+          obj_ciphertext.value=ciphertext; 
+          let div_result=document.getElementById("result_text");
+          div_result.style.color="blue";
+          div_result.innerHTML="<b>密文(ciphertext): </b>"+ciphertext;
+        }
+    });
+    
+    let btn_dec = document.getElementById("btn_dec");
+    btn_dec.addEventListener("click", () => {
+        let obj_ciphertext=document.getElementById("ciphertext");         
+        if(checkInput(obj_ciphertext.value)){
+          let plaintext=decryption(obj_ciphertext.value); 
+          obj_ciphertext.value=""; 
+          let div_result=document.getElementById("result_text");
+          div_result.style.color="blue";
+          div_result.innerHTML="<b>明文(plaintext): </b>"+plaintext;
+        }
+    });
+
+    function checkInput(text) {         
+    if (!text) {        
+        let div_result=document.getElementById("result_text");
+        div_result.style.color="red";
+        div_result.innerHTML="<b>Please input text!</b>";
+        return false;
+    } 
+    return true;  
+  }
+    </script>
+  </body>
+</html>
+
